@@ -1,0 +1,161 @@
+import java.util.*;
+
+/* Inge, estaba investigando que en vez de poner tanta librería una por una pdía poner el * que es como el "all" de util jaja
+lo dejo anotado para mí mismo, porque me imagino que usted ya lo sabe jaja
+
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Collections; --->  para ordenar alfabéticamente la lista de productos
+*/
+
+public class App {
+
+    // Método para pausar hasta que el usuario presione Enter
+    public static void pressEnterToContinue(Scanner scanner) {
+        System.out.println("Presione Enter para continuar...");
+        scanner.nextLine(); // Espera la entrada del usuario
+    }
+
+    /**  Método para limpiar la pantalla
+    
+    Inge no me estaba funcionando el otro codigo para borrar pantalla, solo me borraba ciertas lineas
+    y este que me encontré investigando que depende de mi OS y del IDE, pero siempre dejo el otro anotado 
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+        
+    */
+    public static void clearScreen() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (Exception e) {
+            System.out.println("No se pudo limpiar la pantalla.");
+        }
+    }
+
+    // Método para leer un número entero dentro de un rango para el menú
+    public static int leerNumero(Scanner scanner, String mensaje, int min, int max) {
+        int numero;
+        while (true) {
+            System.out.print(mensaje);
+            try {
+                numero = scanner.nextInt();
+                scanner.nextLine(); // Limpiar el buffer
+                if (numero < min || numero > max) {
+                    System.out.println("Error: Ingresa un numero entre " + min + " y " + max + ".");
+                } else {
+                    return numero;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Debes ingresar un numero válido.");
+                scanner.nextLine();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<String> listaDeCompras = new ArrayList<>();
+
+        while (true) {
+            clearScreen();
+            System.out.println("\n----- MENU -----");
+            System.out.println("1. Agregar un producto a la lista");
+            System.out.println("2. Mostrar la lista de compras");
+            System.out.println("3. Eliminar un producto de la lista");
+            System.out.println("4. Buscar un producto en la lista");
+            System.out.println("5. Ordenar la lista de productos alfabeticamente");
+            System.out.println("6. Salir");
+
+            int opcion = leerNumero(scanner, "Selecciona una opcion: ", 1, 6);
+
+            switch (opcion) {
+                case 1:
+                    clearScreen();
+                    System.out.print("Ingresa el nombre del producto a agregar: ");
+                    String productoAgregar = scanner.nextLine().trim();
+                    if (!productoAgregar.isEmpty()) {
+                        listaDeCompras.add(productoAgregar);
+                        System.out.println("Producto agregado correctamente.");
+                    } else {
+                        System.out.println("No se puede agregar un producto vacio.");
+                    }
+                    pressEnterToContinue(scanner);
+                    break;
+
+                case 2:
+                    clearScreen();
+                    if (listaDeCompras.isEmpty()) {
+                        System.out.println("La lista de compras esta vacia.");
+                    } else {
+                        System.out.println("Lista de compras:");
+                        for (int i = 0; i < listaDeCompras.size(); i++) {
+                            System.out.println((i + 1) + ". " + listaDeCompras.get(i));
+                        }
+                    }
+                    pressEnterToContinue(scanner);
+                    break;
+
+                case 3:
+                    clearScreen();
+                    System.out.print("Ingresa el nombre del producto a eliminar: ");
+                    String productoEliminar = scanner.nextLine().trim();
+                    if (listaDeCompras.removeIf(p -> p.equalsIgnoreCase(productoEliminar))) {
+                        System.out.println("Producto eliminado correctamente.");
+                    } else {
+                        System.out.println("El producto no se encuentra en la lista.");
+                    }
+                    pressEnterToContinue(scanner);
+                    break;
+
+                case 4:
+                    clearScreen();
+                    System.out.print("Ingresa el nombre del producto a buscar: ");
+                    String productoBuscar = scanner.nextLine().trim();
+                    boolean encontrado = false;
+                    for (String producto : listaDeCompras) {
+                        if (producto.equalsIgnoreCase(productoBuscar)) {
+                            encontrado = true;
+                            break;
+                        }
+                    }
+                    if (encontrado) {
+                        System.out.println("El producto SI esta en la lista.");
+                    } else {
+                        System.out.println("El producto NO esta en la lista.");
+                    }
+                    pressEnterToContinue(scanner);
+                    break;
+
+                case 5:
+                    clearScreen();
+                    if (listaDeCompras.isEmpty()) {
+                        System.out.println("La lista esta vacia, no hay nada que ordenar.");
+                    } else {
+                        Collections.sort(listaDeCompras, String.CASE_INSENSITIVE_ORDER); 
+                        /*  String.CASE_INSENSITIVE_ORDER: le dice a Java que ignore mayúsculas/minúsculas al comparar los elementos
+                        cada día aprendo algo nuevo jaja  */
+                        System.out.println("Lista ordenada alfabeticamente:");
+                        for (String producto : listaDeCompras) {
+                            System.out.println("- " + producto);
+                        }
+                    }
+                    pressEnterToContinue(scanner);
+                    break;
+
+                case 6:
+                    System.out.println("CHAYITOO, nos vemos!");
+                    scanner.close();
+                    return;
+            }
+        }
+    }
+}
