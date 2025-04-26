@@ -1,0 +1,145 @@
+import java.util.Scanner;
+import java.time.LocalDate;
+
+public class tareados {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int opcion;
+        
+        // Menu principal que permite al usuario seleccionar un ejercicio
+        do {
+            System.out.println("\nMenu de Ejercicios:");
+            System.out.println("1. Evaluar numero (if)");
+            System.out.println("2. Determinar ano bisiesto (if)");
+            System.out.println("3. Mostrar dia de la semana (switch)");
+            System.out.println("4. Menu de opciones (switch)");
+            System.out.println("5. Sumar hasta numero negativo (while)");
+            System.out.println("6. Repetir accion segun usuario (while)");
+            System.out.println("7. Imprimir primeros 10 numeros (for)");
+            System.out.println("8. Sumar primeros N numeros (for)");
+            System.out.println("9. Salir");
+            System.out.print("Seleccione una opcion: ");
+            opcion = scanner.nextInt();
+            
+            switch (opcion) {
+                case 1:
+                    // Evaluar si un numero es positivo, negativo o cero
+                    System.out.print("Ingrese un numero entero: ");
+                    int numero = scanner.nextInt();
+                    if (numero > 0) {
+                        System.out.println("El numero es positivo.");
+                    } else if (numero < 0) {
+                        System.out.println("El numero es negativo.");
+                    } else {
+                        System.out.println("El numero es cero.");
+                    }
+                    break;
+                
+                case 2:
+                    // Determinar si un año es bisiesto o no
+                    System.out.print("Ingrese un año: ");
+                    int anio = scanner.nextInt();
+                    if ((anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0)) {
+                        System.out.println("El año es bisiesto.");
+                    } else {
+                        System.out.println("El año no es bisiesto.");
+                    }
+                    break;
+                
+                case 3:
+                    // Mostrar el dia de la semana segun un numero ingresado
+                    System.out.print("Ingrese un numero del 1 al 7: ");
+                    int dia = scanner.nextInt();
+                    String nombreDia;
+                    switch (dia) {
+                        case 1: nombreDia = "Lunes"; break;
+                        case 2: nombreDia = "Martes"; break;
+                        case 3: nombreDia = "Miercoles"; break;
+                        case 4: nombreDia = "Jueves"; break;
+                        case 5: nombreDia = "Viernes"; break;
+                        case 6: nombreDia = "Sabado"; break;
+                        case 7: nombreDia = "Domingo"; break;
+                        default: nombreDia = "Numero invalido";
+                    }
+                    System.out.println("Dia correspondiente: " + nombreDia);
+                    break;
+                
+                case 4:
+                    // Menu de opciones con switch
+                    System.out.println("1. Mensaje de bienvenida");
+                    System.out.println("2. Mostrar fecha actual");
+                    System.out.println("3. Salir");
+                    System.out.print("Seleccione una opcion: ");
+                    int seleccion = scanner.nextInt();
+                    switch (seleccion) {
+                        case 1:
+                            System.out.println("Sean todas y todos ustedes muy bienvenidos a este nuevo SEMESTRE!");
+                            break;
+                        case 2:
+                            System.out.println("Fecha actual: " + LocalDate.now());
+                            break;
+                        case 3:
+                            System.out.println("Saliendo...");
+                            break;
+                        default:
+                            System.out.println("Opcion invalida.");
+                    }
+                    break;
+                
+                case 5:
+                    // Sumar numeros hasta que se ingrese un numero negativo
+                    int suma = 0, num;
+                    do {
+                        System.out.print("Ingrese un numero (negativo para salir): ");
+                        num = scanner.nextInt();
+                        if (num >= 0) suma += num;
+                    } while (num >= 0);
+                    System.out.println("Suma total: " + suma);
+                    break;
+                
+                    case 6:
+                    // Repetir accion segun el usuario con log de repeticiones
+                    int contador = 0;
+                    char continuar;
+                    System.out.print("Quieres saber cuantas probabilidades hay de que un inge en sistemas, otaku, gamer consiga novia? (s/n): ");
+                    continuar = scanner.next().charAt(0);
+                    while (continuar == 's' || continuar == 'S') {
+                        contador++;
+                        System.out.println("Respuesta#" + contador + " Muy pocas, quieres voy a consultar cuantas probabilidades hay que un inge en sistemas, otaku, gamer consiga novia?");
+                        System.out.print("¿Deseas seguir consultando? (s/n): ");
+                        continuar = scanner.next().charAt(0);
+                    }
+                    System.out.println("Total de veces consultadas: " + contador);
+                    break;
+                
+                case 7:
+                    // Imprimir los primeros 10 numeros naturales
+                    for (int i = 1; i <= 10; i++) {
+                        System.out.println(i);
+                    }
+                    break;
+                
+                case 8:
+                    // Sumar los primeros N numeros naturales
+                    System.out.print("Ingrese un numero N: ");
+                    int N = scanner.nextInt();
+                    int sumaN = 0;
+                    for (int i = 1; i <= N; i++) {
+                        sumaN += i;
+                    }
+                    System.out.println("La suma de los primeros " + N + " numeros naturales es: " + sumaN);
+                    break;
+                
+                case 9:
+                    // Salir del programa
+                    System.out.println("Saliendo del programa.");
+                    break;
+                
+                default:
+                    System.out.println("Opcion no valida, intente de nuevo.");
+            }
+        } while (opcion != 9);
+        
+        scanner.close();
+    }
+}
